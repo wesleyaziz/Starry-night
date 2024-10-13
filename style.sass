@@ -1,0 +1,70 @@
+@mixin size($w,$h:$w,$bdrs:0)
+    width: $w
+    height: $h
+    border-radius: $bdrs
+
+
+
+@mixin abpos($l:initial,$t:initial)
+    position: absolute
+    left: $l
+    top: $t
+  
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-boxbox
+
+body
+  height: 100vh
+  overflow: hidden
+  animation: animateBg 20s linear infinite
+
+.container
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background-image: url(./data/starry_night_bg.jpg)
+  background-size: cover
+  background-position-x: center
+
+
+
+.allstars
+    +size(100%)
+    +abpos(0,0)
+
+    @keyframes falling
+        0%,100%
+            opacity: 0  
+        70%
+            opacity: 1
+        0%
+            transform: translate(100px,0)
+        100%
+            transform: translate(0,200px)
+
+    [class^='star']       
+        +size(4px,4px,50%)
+        background-color: #fff
+        background: linear-gradient(90deg,#fff,transparent)
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1),0 0 0 4px rgba(255, 255, 255, 0.1)
+        animation: falling 2s infinite
+
+    @for $i from 1 through 30
+        .star#{$i}
+            $posX: random()*100%
+            $posY: random()*-80%+50%
+            +abpos($posX,$posY)
+            animation-delay: $i*-0.1s
+
+
+
+@keyframes animateBg
+  0%,100%
+    transform: scale(1)
+  50%
+    transform: scale(1.2)
+
